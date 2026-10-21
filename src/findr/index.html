@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Findr — Campus Lost & Found</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="report-lost.html">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- hero -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-inner">
+                <span class="eyebrow eyebrow-light">AI-Powered · Built on AWS</span>
+                <h1>Lost it on campus?<br><span class="accent">Findr</span> gets it back.</h1>
+                <p class="hero-sub">Report lost and found items in seconds. Upload a photo, let AWS Rekognition identify it, and connect directly with whoever found it.</p>
+                <div class="hero-search">
+                    <input type="text" id="hero-search-input" placeholder="Search for a lost item, e.g. water bottle, wallet...">
+                    <button class="btn btn-accent" id="hero-search-btn"><span class="icon" id="hero-search-ico"></span> Search</button>
+                </div>
+                <div class="hero-actions">
+                    <a href="report-lost.html" class="btn btn-lg btn-white">Report a Lost Item</a>
+                    <a href="report-found.html" class="btn btn-lg btn-glass">I Found Something</a>
+                </div>
+            </div>
+            <div class="hero-collage" aria-hidden="true">
+                <div class="hero-photo hp1">
+                    <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400" alt="" onerror="this.src='https://placehold.co/400x300/13294d/ffffff?text=Findr'">
+                    <div class="cap"><div class="t">Blue Water Bottle</div><div class="m">Library · Found</div></div>
+                </div>
+                <div class="hero-photo hp2">
+                    <img src="https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?w=400" alt="" onerror="this.src='https://placehold.co/400x300/13294d/ffffff?text=Findr'">
+                    <div class="cap"><div class="t">AirPods Pro</div><div class="m">LT2A · Lost</div></div>
+                </div>
+                <div class="hero-photo hp3">
+                    <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?w=400" alt="" onerror="this.src='https://placehold.co/400x300/13294d/ffffff?text=Findr'">
+                    <div class="cap"><div class="t">Black Wallet</div><div class="m">Canteen · Found</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-fade"></div>
+    </header>
+
+    <!-- stats -->
+    <section class="container">
+        <!-- live stats — computed from real report data in js/home.js -->
+        <div class="stats-band">
+            <a href="browse.html" class="stat" title="Browse all reports">
+                <span class="stat-ico"><span class="icon" data-ico="box"></span></span>
+                <span>
+                    <div class="stat-num" id="stat-reported">0</div>
+                    <div class="stat-label">Items Reported</div>
+                </span>
+                <span class="stat-go"><span class="icon" data-ico="arrowRight"></span></span>
+            </a>
+            <a href="browse.html?status=Claimed" class="stat" title="See claimed items">
+                <span class="stat-ico green"><span class="icon" data-ico="checkCircle"></span></span>
+                <span>
+                    <div class="stat-num" id="stat-recovered">0</div>
+                    <div class="stat-label">Items Recovered</div>
+                </span>
+                <span class="stat-go"><span class="icon" data-ico="arrowRight"></span></span>
+            </a>
+            <a href="browse.html?status=Open" class="stat" title="See open reports">
+                <span class="stat-ico amber"><span class="icon" data-ico="clock"></span></span>
+                <span>
+                    <div class="stat-num" id="stat-open">0</div>
+                    <div class="stat-label">Open Right Now</div>
+                </span>
+                <span class="stat-go"><span class="icon" data-ico="arrowRight"></span></span>
+            </a>
+            <a href="browse.html?status=Claimed" class="stat" title="See claimed items">
+                <span class="stat-ico navy"><span class="icon" data-ico="shield"></span></span>
+                <span>
+                    <div class="stat-num" id="stat-claimed">0</div>
+                    <div class="stat-label">Items Claimed</div>
+                </span>
+                <span class="stat-go"><span class="icon" data-ico="arrowRight"></span></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- how it works -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">How it works</span>
+                <h2>Recover your items in three steps</h2>
+                <p>Findr combines cloud image recognition with a simple reporting flow to reunite people with their belongings.</p>
+            </div>
+            <div class="feature-grid">
+                <a href="report-lost.html" class="feature">
+                    <span class="feature-num">01</span>
+                    <div class="feature-ico"><span class="icon" data-ico="camera"></span></div>
+                    <h4>Upload a photo</h4>
+                    <p>Snap a picture of the lost or found item. AWS Rekognition instantly identifies and tags it for you.</p>
+                    <span class="feature-cta">Report an item <span class="icon" data-ico="arrowRight"></span></span>
+                </a>
+                <a href="browse.html" class="feature">
+                    <span class="feature-num">02</span>
+                    <div class="feature-ico"><span class="icon" data-ico="search"></span></div>
+                    <h4>Search &amp; match</h4>
+                    <p>Browse reports and filter by category, location, or status to quickly find what you're looking for.</p>
+                    <span class="feature-cta">Browse reports <span class="icon" data-ico="arrowRight"></span></span>
+                </a>
+                <a href="messages.html" class="feature">
+                    <span class="feature-num">03</span>
+                    <div class="feature-ico"><span class="icon" data-ico="message"></span></div>
+                    <h4>Connect &amp; recover</h4>
+                    <p>Message the reporter directly in the app to arrange a handover and get your item back safely.</p>
+                    <span class="feature-cta">Open messages <span class="icon" data-ico="arrowRight"></span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ownership verification -->
+    <section class="section verify-band">
+        <div class="container">
+            <div class="verify-split">
+                <div class="verify-copy">
+                    <span class="eyebrow">Built-in trust</span>
+                    <h2>Anyone can say it&rsquo;s theirs.<br>Findr actually checks.</h2>
+                    <p>When someone hands in a found item, they jot down a couple of private
+                       details about it &mdash; things you can only know if it&rsquo;s really yours.</p>
+
+                    <div class="verify-points">
+                        <div class="verify-point">
+                            <span class="verify-point-ico"><span class="icon" data-ico="lock"></span></span>
+                            <div>
+                                <strong>Kept off the listing</strong>
+                                <p>What&rsquo;s inside it, a scratch, a sticker &mdash; recorded privately
+                                   and never shown on the item page or sent to your browser.</p>
+                            </div>
+                        </div>
+                        <div class="verify-point">
+                            <span class="verify-point-ico"><span class="icon" data-ico="sparkles"></span></span>
+                            <div>
+                                <strong>Turned into questions by AI</strong>
+                                <p>Amazon Bedrock writes questions from those details, marks your
+                                   answers against them, and scores how well they line up.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="verify-privacy-note">
+                        <span class="icon" data-ico="shield"></span>
+                        The finder always makes the final call &mdash; they get your score either way.
+                        Findr advises, it doesn&rsquo;t hand your item over automatically.
+                    </p>
+
+                    <a href="browse.html?type=found" class="btn btn-primary btn-lg">
+                        Browse found items <span class="icon" data-ico="arrowRight"></span>
+                    </a>
+                </div>
+
+                <div class="verify-visual" aria-hidden="true">
+                    <div class="vmock">
+                        <div class="vmock-head">
+                            <span class="vmock-dot"></span>
+                            <span class="vmock-dot"></span>
+                            <span class="vmock-dot"></span>
+                        </div>
+                        <div class="vmock-body">
+                            <div class="vmock-q">
+                                <span class="vmock-tick"><span class="icon" data-ico="check"></span></span>
+                                What&rsquo;s inside it?
+                            </div>
+                            <div class="vmock-q">
+                                <span class="vmock-tick"><span class="icon" data-ico="check"></span></span>
+                                Describe any damage.
+                            </div>
+                            <div class="vmock-q">
+                                <span class="vmock-tick"><span class="icon" data-ico="check"></span></span>
+                                What was it next to?
+                            </div>
+                            <div class="vmock-score">
+                                <div class="vmock-score-num">91%</div>
+                                <div class="vmock-score-label">match confidence &middot; Amazon Bedrock</div>
+                            </div>
+                            <div class="vmock-verdict">
+                                <span class="icon" data-ico="checkCircle"></span>
+                                Ownership verified
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- recent reports -->
+    <section class="section bg-white">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Latest activity</span>
+                <h2>Recent reports</h2>
+                <p>The newest lost and found reports from around campus.</p>
+            </div>
+            <div class="card-grid" id="recent-reports"></div>
+            <div class="text-center mt-4">
+                <a href="browse.html" class="btn btn-secondary btn-lg">View all reports <span class="icon" data-ico="arrowRight"></span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-tight">
+        <div class="container">
+            <div class="cta-band">
+                <span class="eyebrow eyebrow-light">Don't wait</span>
+                <h2>Lost something today?</h2>
+                <p>The sooner you report it, the higher the chance of getting it back. It only takes a minute.</p>
+                <div class="cta-actions">
+                    <a href="report-lost.html" class="btn btn-lg btn-accent">Report a Lost Item</a>
+                    <a href="browse.html" class="btn btn-lg btn-glass">Browse Found Items</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

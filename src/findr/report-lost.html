@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report a Lost Item — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-report-type="lost">
+
+    <!-- main navigation bar for moving between the findr pages -->
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="report-lost.html" class="active">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- top section that introduces the lost item report page -->
+    <header class="page-hero" style="--pg-img:url('https://images.unsplash.com/photo-1643804926339-e94f0a655185?w=1600&q=60&auto=format&fit=crop'); --pg-pos:center right">
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Home</a> <span class="icon" data-ico="chevronRight"></span> Report Lost</div>
+            <h1>Report a lost item</h1>
+            <p>Tell us what you lost and where. Upload a photo so AWS Rekognition can help categorise it and speed up matching.</p>
+        </div>
+    </header>
+
+    <!-- main page content starts here -->
+    <main class="main-content section-tight">
+        <div class="container">
+            <div class="report-layout">
+                <div class="surface">
+                <!-- form used to collect all the lost item details -->
+                <form id="report-form">
+                    <!-- lets the user upload and preview a photo of the item -->
+                    <div class="form-group">
+                        <label class="form-label">Item photo</label>
+                        <div class="file-upload" onclick="document.getElementById('image-input').click()">
+                            <div id="upload-prompt">
+                                <div class="file-upload-ico"><span class="icon" data-ico="camera"></span></div>
+                                <p class="file-upload-text"><span>Click to upload</span> or drag and drop<br>PNG or JPG, up to 5MB</p>
+                            </div>
+                            <input type="file" id="image-input" accept="image/*" style="display:none;">
+                            <div class="file-upload-preview" id="image-preview"><img id="preview-img" src="" alt="Preview"></div>
+                        </div>
+                    </div>
+
+                    <!-- hidden at first and shown after aws detects labels from the photo -->
+                    <div class="ai-panel" id="ai-panel" style="display:none;">
+                        <div class="ai-panel-head"><span class="icon" data-ico="sparkles"></span> AWS Rekognition</div>
+                        <div class="ai-panel-sub">Labels automatically detected from your image:</div>
+                        <div class="ai-labels" id="ai-labels"></div>
+                        <button type="button" id="match-btn" class="btn btn-accent btn-block match-cta" style="margin-top:1rem;">
+                            <span class="icon" data-ico="sparkles"></span> Find matching found items
+                        </button>
+                    </div>
+
+                    <!-- basic details used to describe and organise the report -->
+                    <div class="form-group">
+                        <label class="form-label" for="title">Item name</label>
+                        <input type="text" id="title" class="form-input" placeholder="e.g. Blue Hydro Flask water bottle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea id="description" class="form-textarea" placeholder="Describe the item — colour, brand, size, any unique markings or stickers..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="category">Category</label>
+                        <select id="category" class="form-select" required>
+                            <option value="">Select a category</option>
+                            <option>Bottle</option><option>Wallet</option><option>Phone</option>
+                            <option>Laptop</option><option>Electronics</option><option>Bag</option>
+                            <option>Clothing</option><option>Keys</option><option>Umbrella</option>
+                            <option value="School Materials">School Materials</option><option>Others</option>
+                        </select>
+                    </div>
+
+                    <!-- location input includes common campus suggestions -->
+                    <div class="form-group">
+                        <label class="form-label" for="location">Last seen location</label>
+                        <input type="text" id="location" class="form-input" list="location-suggestions"
+                               placeholder="e.g. Library - Level 2, near the printers" required>
+                        <datalist id="location-suggestions">
+                            <option value="Library - Level 1"></option><option value="Library - Level 2"></option><option value="Library - Level 3"></option>
+                            <option value="Canteen - Block 1"></option><option value="Canteen - Block 2"></option>
+                            <option value="Lecture Theatre - LT1A"></option><option value="Lecture Theatre - LT2A"></option><option value="Lecture Theatre - LT3A"></option>
+                            <option value="Study Area - Block 1"></option><option value="Study Area - Block 2"></option><option value="Study Area - Block 3 Level 2"></option>
+                            <option value="Sports Complex - Gym"></option><option value="Sports Complex - Courts"></option>
+                            <option value="Bus Stop - Main Gate"></option>
+                        </datalist>
+                        <div class="form-hint">Type anywhere on campus &mdash; suggestions appear as you type.</div>
+                    </div>
+
+                    <!-- optional map pin for a more exact last seen location -->
+                    <div class="form-group">
+                        <label class="form-label">Pin the exact spot <span style="font-weight:500;color:var(--gray-400);">(optional)</span></label>
+                        <div id="report-map" class="report-map"></div>
+                        <div class="form-hint" id="pin-hint">Click the map to drop a pin right where the item was.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="date">Date lost</label>
+                        <input type="date" id="date" class="form-input" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">Submit Report</button>
+                </form>
+                </div>
+
+                <!-- live preview updates while the user fills in the form -->
+                <aside class="report-side">
+                    <div class="report-side-sticky">
+                        <div class="preview-eyebrow"><span class="live-dot"></span> Live preview</div>
+                        <div class="card preview-card">
+                            <div class="card-media">
+                                <img id="pv-img" src="" alt="Preview" style="display:none;">
+                                <div class="pv-empty" id="pv-empty">
+                                    <span class="icon" data-ico="image"></span>
+                                    <span class="t">Photo preview</span>
+                                </div>
+                                <span class="type-flag" id="pv-type"></span>
+                                <span class="status-flag" id="pv-status"></span>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title" id="pv-title"></h4>
+                                <p class="card-text" id="pv-desc"></p>
+                                <div class="card-meta">
+                                    <span id="pv-loc"></span>
+                                    <span id="pv-date"></span>
+                                </div>
+                                <div class="card-labels" id="pv-labels"></div>
+                            </div>
+                        </div>
+                        <!-- quick tips to help the user make a clearer report -->
+                        <div class="tips-card">
+                            <div class="tips-head"><span class="icon" data-ico="sparkles"></span> Tips for a great report</div>
+                            <ul class="tips-list">
+                                <li><span class="icon" data-ico="check"></span> Add a clear, well-lit photo of the item</li>
+                                <li><span class="icon" data-ico="check"></span> Be specific — colour, brand, unique marks</li>
+                                <li><span class="icon" data-ico="check"></span> Pick the exact location you last saw it</li>
+                                <li class="ai"><span class="icon" data-ico="sparkles"></span> AWS Rekognition auto-tags your photo</li>
+                                <li class="warn"><span class="icon" data-ico="alert"></span> AI tagging isn't always right — double-check the category and description</li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- shows possible found item matches after the ai scan runs -->
+            <section class="match-wrap">
+                <div class="match-panel" id="match-panel">
+                    <div class="match-panel-head">
+                        <span class="icon" data-ico="sparkles"></span>
+                        <h3>AI Match results</h3>
+                    </div>
+                    <p class="match-sub">Findr compared your item's AWS Rekognition labels against every open <strong>found</strong> report on campus.</p>
+                    <div id="match-scan" class="scan">
+                        <div class="scan-track"><div class="scan-bar" id="scan-bar"></div></div>
+                        <div class="scan-text"><span class="icon" data-ico="scan"></span> <span id="scan-msg">Scanning found reports…</span></div>
+                    </div>
+                    <div id="match-grid" class="match-grid" style="display:none;"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- footer links and a short description of the website -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the map library and javascript files needed for the page -->
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/report.js"></script>
+</body>
+</html>

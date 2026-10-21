@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Map — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- main navigation bar for moving between the findr pages -->
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html" class="active">Map</a></li>
+                <li><a href="report-lost.html">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- top banner for the campus map page -->
+    <header class="page-hero slim" style="--pg-img:url('https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=1600&q=60&auto=format&fit=crop'); --pg-pos:center right">
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Home</a> <span class="icon" data-ico="chevronRight"></span> Campus Map</div>
+            <h1>Campus map</h1>
+            <p>Zoom in to see individual items. Click a pin for details.</p>
+        </div>
+    </header>
+
+    <!-- main page content starts here -->
+    <main class="main-content section-tight">
+        <div class="container">
+
+            <!-- filter chips and the button that opens the list drawer -->
+            <div class="map-controls">
+                <div class="fchips" role="group" aria-label="Filter reports">
+                    <button class="fchip active" data-filter="all">All</button>
+                    <button class="fchip" data-filter="lost">Lost</button>
+                    <button class="fchip" data-filter="found">Found</button>
+                </div>
+                <button class="btn btn-sm btn-secondary" id="drawer-toggle">
+                    <span class="icon" data-ico="grid"></span> View list
+                </button>
+            </div>
+
+            <!-- the interactive map plus the floating legend and slide in list -->
+            <div class="map-stage">
+                <div id="campus-map" class="campus-map map-full"></div>
+
+                <div class="map-float-legend" aria-hidden="true">
+                    <span class="map-legend-item"><span class="dot" style="background:var(--lost)"></span> Lost</span>
+                    <span class="map-legend-item"><span class="dot" style="background:var(--found)"></span> Found</span>
+                </div>
+
+                <aside class="map-drawer" id="map-drawer" aria-label="Report list">
+                    <div class="map-drawer-head">
+                        <div>
+                            <div class="map-side-eyebrow" id="drawer-eyebrow">All reports</div>
+                            <h3 id="drawer-title">Everything on the map</h3>
+                        </div>
+                        <button class="drawer-close" id="drawer-close" aria-label="Close list"><span class="icon" data-ico="x"></span></button>
+                    </div>
+                    <div id="drawer-list" class="zone-list"></div>
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- footer links and a short description of the website -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="map.html">Campus Map</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>

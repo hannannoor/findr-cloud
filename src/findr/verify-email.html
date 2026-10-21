@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-body">
+
+    <!-- log in layout, white form panel on the left and the scene on the right -->
+    <div class="auth2">
+        <!-- left: white panel with organic curved edge -->
+        <div class="auth2-panel">
+            <a href="index.html" class="auth2-logo">
+                <img src="images/logo.png" alt="Findr"
+                     onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','&lt;span style=&quot;font-weight:800;font-size:1.6rem;color:#0A2240&quot;&gt;Findr&lt;/span&gt;')">
+            </a>
+
+            <div class="auth2-inner">
+                <span class="eyebrow">Almost there</span>
+                <h1>Verify your email</h1>
+                <p class="auth2-sub">We've sent a six digit code to your inbox. Enter it below to activate your account.</p>
+
+                <div id="page-alert" class="alert" style="display:none;"></div>
+
+                <form id="verify-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email address</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="mail"></span>
+                            <input type="email" id="email" class="form-input" placeholder="yourname@tp.edu.sg" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="code">Verification code</label>
+                        <input type="text" id="code" class="form-input code-input" inputmode="numeric"
+                               autocomplete="one-time-code" maxlength="6" placeholder="000000" required>
+                        <div class="form-hint">The six digit code we emailed you. Check spam if it hasn't arrived.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="verify-btn">Verify email</button>
+                </form>
+
+                <button type="button" class="link-btn" id="resend-btn">Didn't get it? Send a new code</button>
+
+                <div class="auth-footer">Already verified? <a href="login.html">Log in</a></div>
+            </div>
+
+            <div class="auth2-curve" aria-hidden="true">
+                <svg viewBox="0 0 100 900" preserveAspectRatio="none">
+                    <path d="M0 0 H30 C96 100 100 200 48 320 C6 415 2 480 26 560 C58 665 98 760 34 900 H0 Z" fill="#ffffff"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- right: gradient scene with floating orbs -->
+        <div class="auth2-scene">
+            <nav class="auth2-nav">
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse</a>
+                <a href="map.html">Map</a>
+                <a href="login.html" class="pill">Log In</a>
+            </nav>
+
+            <div class="orb o2" aria-hidden="true"></div>
+            <div class="orb o3" aria-hidden="true"></div>
+
+            <div class="auth2-tag">
+                <h2>Lost it on campus?<br><span>Findr</span> gets it back.</h2>
+                <p>AI image recognition, a live campus map, and direct chat — everything you need to reunite with your stuff.</p>
+                <div class="chips">
+                    <span><span class="icon" data-ico="sparkles"></span>AI Match</span>
+                    <span><span class="icon" data-ico="pin"></span>Campus Map</span>
+                    <span><span class="icon" data-ico="message"></span>Direct Chat</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/verify-email.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-body">
+
+    <!-- log in layout, white form panel on the left and the scene on the right -->
+    <div class="auth2">
+        <!-- left: white panel with organic curved edge -->
+        <div class="auth2-panel">
+            <a href="index.html" class="auth2-logo">
+                <img src="images/logo.png" alt="Findr"
+                     onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','&lt;span style=&quot;font-weight:800;font-size:1.6rem;color:#0A2240&quot;&gt;Findr&lt;/span&gt;')">
+            </a>
+
+            <div class="auth2-inner">
+                <span class="eyebrow">Welcome back</span>
+                <h1>Log in to Findr</h1>
+                <p class="auth2-sub">Track your reports, check your matches, and message finders.</p>
+
+                <div id="login-alert" class="alert" style="display:none;"></div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email address</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="mail"></span>
+                            <input type="email" id="email" class="form-input" placeholder="yourname@tp.edu.sg" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="lock"></span>
+                            <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <div class="form-row-end">
+                        <a href="forgot-password.html" class="link-quiet">Forgot your password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-btn">Log In</button>
+                </form>
+
+                <form id="mfa-form" style="display:none;">
+                    <div class="mfa-badge">
+                        <span class="icon" data-ico="shield"></span>
+                        <div>
+                            <strong>Extra verification</strong>
+                            <span id="mfa-sub">This account is protected by two-step verification.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="mfa-code">Verification code</label>
+                        <input type="text" id="mfa-code" class="form-input code-input" inputmode="numeric"
+                               autocomplete="one-time-code" maxlength="8" placeholder="000000" required>
+                        <div class="form-hint" id="mfa-hint">Enter the code we just sent you.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="mfa-btn">Verify and log in</button>
+                    <button type="button" class="link-btn" id="mfa-cancel">Use a different account</button>
+                </form>
+
+                <div class="auth-footer">Don't have an account? <a href="register.html">Sign up</a></div>
+
+                <!-- part 1 demo account hints removed - real cognito auth now, so
+                     printing credentials on the login page would be a bad idea -->
+            </div>
+
+            <div class="auth2-curve" aria-hidden="true">
+                <svg viewBox="0 0 100 900" preserveAspectRatio="none">
+                    <path d="M0 0 H30 C96 100 100 200 48 320 C6 415 2 480 26 560 C58 665 98 760 34 900 H0 Z" fill="#ffffff"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- right: gradient scene with floating orbs -->
+        <div class="auth2-scene">
+            <nav class="auth2-nav">
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse</a>
+                <a href="map.html">Map</a>
+                <a href="register.html" class="pill">Sign Up</a>
+            </nav>
+
+            <div class="orb o2" aria-hidden="true"></div>
+            <div class="orb o3" aria-hidden="true"></div>
+
+            <div class="auth2-tag">
+                <h2>Lost it on campus?<br><span>Findr</span> gets it back.</h2>
+                <p>AI image recognition, a live campus map, and direct chat — everything you need to reunite with your stuff.</p>
+                <div class="chips">
+                    <span><span class="icon" data-ico="sparkles"></span>AI Match</span>
+                    <span><span class="icon" data-ico="pin"></span>Campus Map</span>
+                    <span><span class="icon" data-ico="message"></span>Direct Chat</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

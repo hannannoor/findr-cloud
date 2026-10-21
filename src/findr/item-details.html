@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- main navigation bar for moving between the findr pages -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="report-lost.html">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- main page content starts here -->
+    <main class="main-content section-tight">
+        <div class="container">
+            <a href="browse.html" class="btn btn-ghost btn-sm mb-3"><span class="icon" data-ico="arrowLeft"></span> Back to reports</a>
+
+            <div class="detail-grid" id="item-detail" style="display:none;"></div>
+
+            <div id="loading" class="empty-state">
+                <div class="empty-ico"><span class="icon" data-ico="box"></span></div>
+                <p>Loading item details...</p>
+            </div>
+
+            <div id="not-found" class="empty-state" style="display:none;">
+                <div class="empty-ico"><span class="icon" data-ico="alert"></span></div>
+                <h3>Report not found</h3>
+                <p>This report may have been removed, or the link is invalid.</p>
+                <a href="browse.html" class="btn btn-primary mt-3">Browse Reports</a>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- footer links and a short description of the website -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/verify.js"></script>
+    <script src="js/item-details.js"></script>
+</body>
+</html>

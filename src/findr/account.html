@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- main navigation bar for moving between the findr pages -->
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="report-lost.html">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- top section for the my reports page -->
+    <header class="page-hero slim" style="--pg-img:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=60&auto=format&fit=crop'); --pg-pos:center">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a><span>&rsaquo;</span><span>Account</span></nav>
+            <h1>Account settings</h1>
+            <p>Update your name, change your password, and check your email status.</p>
+        </div>
+    </header>
+
+    <main class="main-content section-tight">
+        <div class="container acct-wrap">
+
+            <!-- who you are -->
+            <section class="acct-card">
+                <div class="acct-head">
+                    <span class="acct-avatar" id="acct-avatar">?</span>
+                    <div>
+                        <h2 id="acct-name">Loading…</h2>
+                        <p id="acct-email"></p>
+                    </div>
+                    <span class="acct-verify" id="acct-verify"></span>
+                </div>
+            </section>
+
+            <!-- display name -->
+            <section class="acct-card">
+                <h3 class="acct-title"><span class="icon" data-ico="user"></span> Display name</h3>
+                <p class="acct-sub">This is the name other people see on your reports and messages.</p>
+
+                <div id="name-alert" class="alert" style="display:none;"></div>
+
+                <form id="name-form">
+                    <div class="form-group">
+                        <label class="form-label" for="display-name">Your name</label>
+                        <input type="text" id="display-name" class="form-input" required maxlength="60">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="name-btn">Save name</button>
+                </form>
+            </section>
+
+            <!-- password -->
+            <section class="acct-card">
+                <h3 class="acct-title"><span class="icon" data-ico="lock"></span> Password</h3>
+                <p class="acct-sub">Choose something you don't use anywhere else.</p>
+
+                <div id="pw-alert" class="alert" style="display:none;"></div>
+
+                <form id="pw-form">
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Current password</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="lock"></span>
+                            <input type="password" id="current-password" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New password</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="lock"></span>
+                            <input type="password" id="new-password" class="form-input" required>
+                        </div>
+                        <div class="form-hint">At least 8 characters, with a number, a capital and a symbol.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm new password</label>
+                        <div class="input-icon">
+                            <span class="icon" data-ico="lock"></span>
+                            <input type="password" id="confirm-password" class="form-input" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="pw-btn">Change password</button>
+                </form>
+            </section>
+
+            <!-- sign out -->
+            <section class="acct-card acct-danger">
+                <h3 class="acct-title"><span class="icon" data-ico="logout"></span> Sign out</h3>
+                <p class="acct-sub">You'll need to log in again to report or claim items.</p>
+                <button class="btn btn-secondary" id="signout-btn">Log out of Findr</button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- edit modal -->
+    </div>
+
+    <!-- footer links and a short description of the website -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="map.html">Campus Map</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/account.js"></script>
+</body>
+</html>

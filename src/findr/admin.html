@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Findr</title>
+    <!-- loads the fonts and styles used for this page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- main navigation bar for moving between the findr pages -->
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img class="logo-dark" src="images/logo.png" alt="Findr" onerror="this.style.display='none';this.parentElement.querySelector('.brand-fallback').style.display='flex';">
+                <img class="logo-light" src="images/logo-white.png" alt="" onerror="this.style.display='none';">
+                <span class="brand-fallback" style="display:none;"><span class="pin">F</span>Findr</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menu"><span class="icon"></span></button>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="report-lost.html">Report Lost</a></li>
+                <li><a href="report-found.html">Report Found</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="my-reports.html">My Reports</a></li>
+            </ul>
+            <div class="navbar-auth">
+                <a href="login.html" class="btn btn-sm btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- top section for the admin dashboard -->
+    <header class="page-hero" style="--pg-img:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=60&auto=format&fit=crop')">
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Home</a> <span class="icon" data-ico="chevronRight"></span> Admin</div>
+            <h1>Admin dashboard</h1>
+            <p>Manage all lost and found reports across the platform.</p>
+        </div>
+    </header>
+
+    <!-- main page content starts here -->
+    <main class="main-content section-tight">
+        <div class="container">
+
+            <div id="dashboard-content" style="display:none;">
+                <div class="dash-stats">
+                    <div class="dash-stat">
+                        <span class="di icon" data-ico="grid" style="color:var(--navy-800)"></span>
+                        <div class="dash-stat-label">Total Reports</div>
+                        <div class="dash-stat-value" id="stat-total">0</div>
+                    </div>
+                    <div class="dash-stat">
+                        <span class="di icon" data-ico="clock" style="color:var(--open)"></span>
+                        <div class="dash-stat-label">Open</div>
+                        <div class="dash-stat-value" id="stat-open" style="color:var(--open);">0</div>
+                    </div>
+                    <div class="dash-stat">
+                        <span class="di icon" data-ico="checkCircle" style="color:var(--claimed)"></span>
+                        <div class="dash-stat-label">Claimed</div>
+                        <div class="dash-stat-value" id="stat-claimed" style="color:var(--claimed);">0</div>
+                    </div>
+                    <div class="dash-stat">
+                        <span class="di icon" data-ico="check" style="color:var(--found)"></span>
+                        <div class="dash-stat-label">Closed</div>
+                        <div class="dash-stat-value" id="stat-closed" style="color:var(--found);">0</div>
+                    </div>
+                </div>
+
+                <div class="toolbar mb-3">
+                    <div class="input-icon">
+                        <span class="icon" data-ico="search"></span>
+                        <input type="text" class="form-input" id="admin-search" placeholder="Search reports by item, reporter, or location...">
+                    </div>
+                    <select class="form-select" id="admin-filter-type">
+                        <option value="">All types</option>
+                        <option value="lost">Lost</option>
+                        <option value="found">Found</option>
+                    </select>
+                    <select class="form-select" id="admin-filter-status">
+                        <option value="">All Statuses</option>
+                        <option>Open</option><option>Claimed</option><option>Closed</option>
+                    </select>
+                    <button class="btn btn-secondary btn-sm" id="export-btn">
+                        <span class="icon" data-ico="box"></span> Export CSV
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Type</th><th>Item</th><th>Category</th>
+                                <th>Location</th><th>Reporter</th><th>Date</th><th>Status</th>
+                                <th>Verification</th><th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- status modal -->
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Manage report</h3>
+                <button class="modal-close" id="modal-close"><span class="icon" data-ico="x"></span></button>
+            </div>
+
+            <div class="admin-modal-meta" id="modal-meta"></div>
+
+            <form id="admin-edit-form">
+                <div class="form-group">
+                    <label class="form-label" for="modal-title">Item name</label>
+                    <input type="text" id="modal-title" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="modal-description">Description</label>
+                    <textarea id="modal-description" class="form-textarea" rows="3" required></textarea>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label" for="modal-category">Category</label>
+                        <select id="modal-category" class="form-select">
+                            <option>Bottle</option><option>Wallet</option><option>Phone</option>
+                            <option>Laptop</option><option>Electronics</option><option>Bag</option>
+                            <option>Clothing</option><option>Keys</option><option>Umbrella</option>
+                            <option value="School Materials">School Materials</option><option>Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label" for="modal-status">Status</label>
+                        <select id="modal-status" class="form-select">
+                            <option>Open</option><option>Claimed</option><option>Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="modal-location">Location</label>
+                    <input type="text" id="modal-location" class="form-input" required>
+                </div>
+
+                <div class="d-flex gap-1" style="justify-content:space-between;">
+                    <button type="button" class="btn btn-danger" id="modal-delete-btn">
+                        <span class="icon" data-ico="trash"></span> Delete
+                    </button>
+                    <div class="d-flex gap-1">
+                        <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="modal-save-btn">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- footer links and a short description of the website -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand"><span class="pin"><span class="icon" data-ico="pin" style="color:#fff"></span></span> Findr</div>
+                    <p class="footer-desc">A campus lost &amp; found platform built on AWS cloud services and AI image recognition. Helping students recover what matters.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Log In</a></li>
+                        <li><a href="register.html">Sign Up</a></li>
+                        <li><a href="messages.html">Messages</a></li>
+                        <li><a href="my-reports.html">My Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-mini">Findr &middot; Campus Lost &amp; Found</div>
+        </div>
+    </footer>
+
+    <!-- loads the javascript files needed for the page -->
+    <script src="js/icons.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

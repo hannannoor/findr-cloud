@@ -1,0 +1,67 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadWriteFindrTablesOnly",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-southeast-2:958202484887:table/findr-reports",
+        "arn:aws:dynamodb:ap-southeast-2:958202484887:table/findr-reports/index/*",
+        "arn:aws:dynamodb:ap-southeast-2:958202484887:table/findr-messages",
+        "arn:aws:dynamodb:ap-southeast-2:958202484887:table/findr-messages/index/*"
+      ]
+    },
+    {
+      "Sid": "ReadWriteUploadedImagesOnly",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::findr-uploads-XXXXXXXX/uploads/*"
+    },
+    {
+      "Sid": "GenerativeDescriptionsAndMatching",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeModel"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "TranslateListings",
+      "Effect": "Allow",
+      "Action": [
+        "translate:TranslateText",
+        "comprehend:DetectDominantLanguage"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AnalyseImagesWithRekognition",
+      "Effect": "Allow",
+      "Action": [
+        "rekognition:DetectLabels",
+        "rekognition:DetectText",
+        "rekognition:DetectModerationLabels",
+        "rekognition:DetectCustomLabels"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "PublishNotificationsToFindrTopicOnly",
+      "Effect": "Allow",
+      "Action": "sns:Publish",
+      "Resource": "arn:aws:sns:ap-southeast-2:958202484887:findr-notifications"
+    }
+  ]
+}
